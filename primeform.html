@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Prime form calculator</title>
+	<link rel="stylesheet" type="text/css" href="http://yegor256.github.io/tacit/tacit.min.css"/>
+</head>
+<body>
+
+<h1>Prime form calculator</h1>
+<h2>Forte's algorithm<h2>
+
+<label for="pcs">Input PCs: <input type="text" name="pcs"/></label><br>
+<label for="output">Normal Form: <input type="text" name="normal" disabled readonly/></label><br>
+<label for="output">Prime Form: <input type="text" name="prime" disabled readonly/></label>
+
+
+</body>
+
+<script>
+	function primeForm(pcs){
+		return transposeSet(normalForm(pcs), -1 * pcs[0]);
+	}
+
+	function transpose(n, x){
+		return ((x + n) % 12 + 12) % 12;
+	}
+
+	function transposeSet(pcs, n){
+		var transposeN = transpose.bind(null, n);
+		return pcs.map(transposeN);
+	}
+
+	function normalForm(pcs){
+		var most_packed = mostPacked(allRotations(deduplicate(pcs)));
+		
+		if (most_packed.length === 1) {
+			return most_packed[0];
+		} else {
+			var firsts = [];
+			for (var i = 0; i < most_packed.length; i += 1) {
+				firsts.push(most_packed[0]);
+			}
+
+			var min = Math.min.apply(null, firsts);
+			return most_packed[firsts.indexOf(min)];
+		}
+	}
+
+	function headToN(pcs, n){
+		var head = pcs[0], tail = pcs[pcs.length - (n + 1)];
+		return ((tail - head) % 12 + 12) % 12;
+	}
+
+	function headToTail(pcs){
+		return headToN(pcs, 0);
+	}
+
+	function prune(to_prune, order) {
+		var distances = [];
+		var pruned = [];
+
+		if (order > to_prune.length) {
+			return to_prune;
+		}
+		
+		for (var i = 0; i < to_prune.length; i += 1) {
+			distances.push(headToN(to_prune[i], order));
+		}
+
+		console.log("distances :", distances);
+
+		var min_distance = Math.min.apply(null, distances);
+
+		for (var j = 0; j < to_prune.length; j += 1) {
+			if (min_distance == distances[j]) {
+				pruned.push(to_prune[j]);
+			}
+		}
+		return prune(pruned, order + 1);
+	}
+
+	function mostPacked(rotations) {
+		return prune(rotations, 0);
+	}
+
+	function rotate(array, n) {
+		return array.slice(n, array.length)
+					.concat(array.slice(0,n));
+	}
+
+	function allRotations(array) {
+		var rotations = [];
+
+		for (var i = 0; i < array.length; i = i + 1) {
+			rotations.push(rotate(array, i));
+		}
+
+		return rotations;
+	}
+
+	function parsePCInt(s){
+		return ((parseInt(s, 10) % 12) + 12) % 12;
+	}
+
+	function deduplicate(pcs){
+		return pcs.filter(function(e, i, self) {
+			return i == self.indexOf(e);
+		});
+	}
+
+	function parseInput(input){
+		var as_array = input.split(",");
+		var pc_ints = as_array.map(parsePCInt);
+		return pc_ints.sort(function(a,b) {return a - b;});
+	}
+
+	function calculateAndRender(){
+		var input_field = document.querySelector("input[name='pcs']");
+
+		var normal_field = document.querySelector("input[name='normal']");
+
+		var prime_field = document.querySelector("input[name='prime']");
+
+		var input_text = input_field.value;
+
+		normal_field.value = normalForm(parseInput(input_text));
+		prime_field.value = primeForm(parseInput(input_text));
+
+	}
+
+	window.onload = function() {
+		var input_field = document.querySelector("input[name='pcs']");
+		input_field.addEventListener("change", function() {
+			calculateAndRender();
+		});
+	};
+</script>
+</html>

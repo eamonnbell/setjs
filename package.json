@@ -1,0 +1,14 @@
+{
+  "name": "setjs",
+  "version": "1.0.0",
+  "description": "Set theory stuff in JS",
+  "main": "app.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Eamonn Bell <epb2125@columbia.edu>",
+  "license": "ISC",
+  "dependencies": {
+    "jest": "^20.0.4"
+  }
+}

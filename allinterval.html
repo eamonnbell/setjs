@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>AIR calculator</title>
+  <!-- <link rel="stylesheet" type="text/css" href="http://yegor256.github.io/tacit/tacit.min.css" /> -->
+  <style type="text/css">
+  	.items {
+  	    display: flex;
+  	    flex-wrap: wrap;
+  	    justify-content: space-around;
+  	}
+  	.items .item {
+  	    flex: 0 0 40%;
+  	    box-sizing: border-box;
+  	    border-style: solid;
+  	    border-width: 2px;
+  	    background: #ffffff;
+		padding: 1rem;
+  	}
+
+  	select#output {
+  		height: 70%;
+  	}
+  </style>
+</head>
+
+<body>
+  <section>
+    <article>
+      <h1>AIR calculator</h1>
+      <h2>Controls</h2>
+      Algorithm to use
+      <select id="generator_test" name="generator_test">
+      	<option value="all_contiguous_subsets">AllContiguousSubsets</option>
+      	<option value="partial_sums">PartialSums</option>
+      	<option value="naive">Naive</option>
+      </select>
+      <div>
+      <button id="go">Go!</button>
+      <button id="stop" style="background-color: #ee2222; color: #efefef;">Stop</button>
+      </div>
+      
+      <div class="items">
+		  <div class="item">
+		      <h2>Braid diagram</h2>
+		      <div>
+		        <canvas id="stage" width="300" height="300" style="border:1px solid"></canvas>
+		      </div>
+		  </div>
+		  <div class="item">
+		      <h2>List</h2>
+		      <h5 id="list_size"></h5>
+		      <select multiple id="output">
+		      </select>
+		  </div>
+      </div>
+
+    </article>
+  </section>
+
+</body>
+<script src="air.js"></script>
+</html>

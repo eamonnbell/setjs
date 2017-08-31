@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Morris-Starr</title>
+</head>
+<body>
+<script type="text/javascript">
+	var i = [];
+	var n = [];
+
+	var nx = [];
+	var ix = [];
+
+	var j, k;
+
+	function calcij(){
+		i[j] = n[j] - n[j-1];
+		
+		if (i[j] < 0) {
+			i[j] = i[j] + 12;
+		}
+
+		if(ix[i[j]] == 1) {
+			jumpfive();
+		}
+
+		nx[n[j]] = 1;
+		ix[i[j]] = 1;
+
+		moveright();
+	}
+
+	function calceleventh(){
+		i[j] = n[12] - n[11];
+
+		if(i[j] < 0){
+			i[j] = i[j] + 12;
+		}
+
+		if(ix[i[j]] === 1) {
+			moveleft();
+		}
+
+		foundais();
+	}
+
+	function foundais(){
+		k = k + 1;
+		console.log(k, n, i);
+		moveleft();
+	}
+
+	function jumpfour(){
+		if (nx[n[j]] === 0) {
+			calcij();
+		}
+
+		jumpfive();
+	}
+
+	function jumpfive(){
+		n[j] = n[j] + 1;
+
+		if(n[j] == 6){
+			jumpfive();
+		}
+
+		if(n[j] > 11){
+			moveleft();
+		}
+
+		jumpfour();
+	}
+
+	function moveright(){
+		j = j + 1;
+
+		if (j > 11) {
+			calceleventh();
+		}
+
+		n[j] = 1;
+
+		jumpfour();
+	}
+
+	function moveleft(){
+		j = j - 1;
+
+		if (j == 1) {
+			console.log("done");
+			return true;
+		}
+
+		nx[n[j]] = 0;
+		ix[i[j]] = 0;
+		
+		jumpfive();
+	}
+</script>
+</body>
+</html> 
