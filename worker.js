@@ -50,6 +50,7 @@ function bruteforce(arr, generator_test) {
 
 function bruteforceBauerMengelbergFerentz(arr, generator_test) {
 	// use algorithm described in BauerMengelbergFerentz to generate permutations
+	// currently a copy of bruteforce
 	var passingPermutations = [];
 	var index = 0;
 
@@ -224,6 +225,7 @@ onmessage = function (event) {
 module.exports = {
 	sumover,
 	range,
-	bruteforce
+	bruteforce,
+	bruteforceBauerMengelbergFerentz,
 }
 
